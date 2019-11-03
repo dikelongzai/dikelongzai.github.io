@@ -181,8 +181,8 @@ sidebar:
   - title: rss
     href: /atom.xml
     class: 'fas fa-rss fa-fw'
-  - title: wu.kan@foxmail.com # email
-    href: mailto:wu.kan@foxmail.com
+  - title: 15399073387@163.com # email
+    href: mailto:15399073387@163.com
     class: 'fas fa-envelope fa-fw'
   - title: WuK # codeforces
     href: //codeforces.com/profile/WuK
@@ -190,7 +190,7 @@ sidebar:
   - title: WuK # vjudge
     href: //vjudge.net/user/WuK
     class: 'fas fa-smile fa-fw'
-  - title: 942759535 # qq
+  - title: 375514899 # qq
     class: 'fab fa-qq fa-fw'
   - title: Wu-_-Kan # weixin
     class: 'fab fa-weixin fa-fw'

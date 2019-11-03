@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 今、情热が岚になって
+title:恒景的技术之路
 ---
 ## 近期
 
