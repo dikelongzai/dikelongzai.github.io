@@ -174,7 +174,7 @@ PrismJS: # 代码高亮插件，可以在https://prismjs.com/download.html自己
 sidebar:
   avatar: # 侧边栏显示的头像
     enable: true
-    img: ///public/image/hou_pic.jpg # 头像的地址
+    img: /public/image/hou_pic.jpg # 头像的地址
     info: <br/>阿里巴巴<br/>资深数据工程师<br/>数据中台<br/>数据仓库<br/>高并发服务端架构<br/>ACM&ASC # 头像背后的信息
   description: '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=100% height=52 src="//music.163.com/outchain/player?type=2&id=439139814&auto=0&height=66"></iframe>'
   social:
