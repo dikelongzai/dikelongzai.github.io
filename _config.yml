@@ -175,8 +175,8 @@ sidebar:
   avatar: # 侧边栏显示的头像
     enable: true
     img: ///public/image/hou_pic.jpg # 头像的地址
-    info: <br/>阿里巴巴<br/>资深数据工程师<br/>PB级数据平台设计<br/>数据仓库架构<br/>高并发服务端架构<br/>ACM&ASC # 头像背后的信息
-  description: '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=100% height=52 src="//music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"></iframe>'
+    info: <br/>阿里巴巴<br/>资深数据工程师<br/>数据中台<br/>数据仓库<br/>高并发服务端架构<br/>ACM&ASC # 头像背后的信息
+  description: '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=100% height=52 src="//music.163.com/outchain/player?type=2&id=439139814&auto=0&height=66"></iframe>'
   social:
   - title: rss
     href: /atom.xml
@@ -184,21 +184,21 @@ sidebar:
   - title: 15399073387@163.com # email
     href: mailto:15399073387@163.com
     class: 'fas fa-envelope fa-fw'
-  - title: WuK # codeforces
-    href: //codeforces.com/profile/WuK
+  - title: 恒景 # codeforces
+    href: //
     class: 'fas fa-chart-bar fw'
-  - title: WuK # vjudge
-    href: //vjudge.net/user/WuK
+  - title: 恒景 # vjudge
+    href: //
     class: 'fas fa-smile fa-fw'
   - title: 375514899 # qq
     class: 'fab fa-qq fa-fw'
-  - title: Wu-_-Kan # weixin
+  - title: Howard_hou # weixin
     class: 'fab fa-weixin fa-fw'
   - title: github
     href: //github.com/dikelongzai
     class: 'fab fa-github fa-fw'
   - title: zhihu
-    href: //www.zhihu.com/people/wu.kan/activities
+    href: //
     class: 'fab fa-zhihu fa-fw'
   nav:
   - title: '<i class="fas fa-home fa-fw"></i> 首页'
