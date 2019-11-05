@@ -5,7 +5,6 @@ categories:
   - Hbase
   
 tags:
-  - 大数据存储
   - Hbase
 abbrlink: 33760
 date: 2019-09-05 01:29:56
