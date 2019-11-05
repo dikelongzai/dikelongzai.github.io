@@ -8,7 +8,7 @@ tags:
   - 大数据存储
   - Hbase
 abbrlink: 33760
-date: 2019-05-10 01:29:56
+date: 2019-09-05 01:29:56
 ---
 # 一、简介
       BlockCache是HBase中的一个重要特性，相比于写数据时缓存为Memstore，读数据时的缓存则为BlockCache。
