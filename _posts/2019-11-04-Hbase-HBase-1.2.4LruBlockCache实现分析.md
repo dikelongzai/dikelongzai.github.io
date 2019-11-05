@@ -1,7 +1,7 @@
 ---
 title: HBase-1.2.4LruBlockCache实现分析
 categories:
-  - 大数据存储
+  - 大数据
   - Hbase
   
 tags:
