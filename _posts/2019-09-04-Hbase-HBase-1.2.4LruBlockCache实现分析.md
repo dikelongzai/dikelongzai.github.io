@@ -34,17 +34,17 @@ public enum BlockPriority {
  ## 2、MULTI：多次缓存；
  ## 3、MEMORY：常驻缓存的，比如meta信息等。
 # 三、缓存实现分析
-      LruBlockCache缓存的实现在方法cacheBlock()中，实现逻辑如下：
-      1、首先需要判断需要缓存的数据大小是否超过最大块大小，按照2%的频率记录warn类型log并返回；
-      2、从缓存map中根据cacheKey尝试获取已缓存数据块cb；
-      3、如果已经缓存过，比对下内容，如果内容不一样，抛出异常，否则记录warn类型log并返回；
-      4、获取当前缓存大小currentSize，获取可以接受的缓存大小currentAcceptableSize，计算硬性限制大小hardLimitSize；
-      5、如果当前大小超过硬性限制，当回收没在执行时，执行回收并返回，否则直接返回；
-      6、利用cacheKey、数据buf等构造Lru缓存数据块实例cb；
-      7、将cb放置入map缓存中；
-      8、元素个数原子性增1；
-      9、如果新大小超过当前可以接受的大小，且未执行回收过程中，执行内存回收。
-      详细代码如下，可自行阅读分析：
+LruBlockCache缓存的实现在方法cacheBlock()中，实现逻辑如下：
+1、首先需要判断需要缓存的数据大小是否超过最大块大小，按照2%的频率记录warn类型log并返回； 
+2、从缓存map中根据cacheKey尝试获取已缓存数据块cb；
+3、如果已经缓存过，比对下内容，如果内容不一样，抛出异常，否则记录warn类型log并返回；
+4、获取当前缓存大小currentSize，获取可以接受的缓存大小currentAcceptableSize，计算硬性限制大小hardLimitSize；
+5、如果当前大小超过硬性限制，当回收没在执行时，执行回收并返回，否则直接返回；
+6、利用cacheKey、数据buf等构造Lru缓存数据块实例cb；
+7、将cb放置入map缓存中；
+8、元素个数原子性增1；
+9、如果新大小超过当前可以接受的大小，且未执行回收过程中，执行内存回收。
+ 详细代码如下，可自行阅读分析：
 ```java 
  // BlockCache implementation  
   
@@ -188,7 +188,6 @@ public void run() {
   }  
 }  
         线程会wait10s，放弃对象锁，在notifyAll()后，继续执行后面的淘汰流程，即：
-[java] view plain copy
 /** 
  * Eviction method. 
  */  
