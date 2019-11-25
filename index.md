@@ -4,7 +4,7 @@ title:恒景的技术之路
 ---
 ## 近期
 
-{% for post in site.posts limit:5 %}
+{% for post in site.posts limit:50 %}
 
 - [{{ post.title }}]({{ post.url }}), *{{ post.date | date_to_string }}*
 
