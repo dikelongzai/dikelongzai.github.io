@@ -169,7 +169,7 @@ public void evict() {
   }  
 }  
         通过synchronized获取EvictionThread线程的对象锁，然后主线程通过回收线程对象的notifyAll唤醒EvictionThread线程，那么这个线程是何时wait的呢？答案就在其run()方法中，notifyAll()之后，线程run()方法得以继续执行：
-[java] view plain copy
+
 @Override  
 public void run() {  
   enteringRun = true;  
@@ -342,3 +342,4 @@ void evict() {
        &emsp;8.2.3、single-bucket和multi-bucket中都回收，且尽量满足回收后比例为1:2；  
 9、否则，从三个队列中循环回收；  
 10、最后，重置标志位，释放锁等。
+
