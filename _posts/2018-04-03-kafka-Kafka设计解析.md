@@ -278,9 +278,9 @@ Example:
 Controller在ZooKeeper注册Watch，一旦有Broker宕机（这是用宕机代表任何让系统认为其die的情景，包括但不 限于机器断电，网络不可用，GC导致的Stop The World，进程crash等），其在ZooKeeper对应的znode会自动被删除，ZooKeeper会fire Controller注册的watch，Controller读取最新的幸存的Broker。
 Controller决定set_p，该集合包含了宕机的所有Broker上的所有Partition。
 对set_p中的每一个Partition
-3.1 从/brokers/topics/[topic]/partitions/[partition]/state读取该Partition当前的ISR
-3.2 决定该Partition的新Leader。如果当前ISR中有至少一个Replica还幸存，则选择其中一个作为新Leader，新的ISR则包含当前 ISR中所有幸存的Replica。否则选择该Partition中任意一个幸存的Replica作为新的Leader以及ISR（该场景下可能会有潜在 的数据丢失）。如果该Partition的所有Replica都宕机了，则将新的Leader设置为-1。
-3.3 将新的Leader，ISR和新的leader_epoch及controller_epoch写入/brokers/topics/[topic]/partitions/[partition]/state。注意，该操作只有其version在3.1至3.3的过程中无变化时才会执行，否则跳转到3.1
+- 3.1 从/brokers/topics/[topic]/partitions/[partition]/state读取该Partition当前的ISR
+- 3.2 决定该Partition的新Leader。如果当前ISR中有至少一个Replica还幸存，则选择其中一个作为新Leader，新的ISR则包含当前 ISR中所有幸存的Replica。否则选择该Partition中任意一个幸存的Replica作为新的Leader以及ISR（该场景下可能会有潜在 的数据丢失）。如果该Partition的所有Replica都宕机了，则将新的Leader设置为-1。
+- 3.3 将新的Leader，ISR和新的leader_epoch及controller_epoch写入/brokers/topics/[topic]/partitions/[partition]/state。注意，该操作只有其version在3.1至3.3的过程中无变化时才会执行，否则跳转到3.1
 直接通过RPC向set_p相关的Broker发送LeaderAndISRRequest命令。Controller可以在一个RPC操作中发送多个命令从而提高效率。
 broker failover顺序图如下所示。
 Kafka是由LinkedIn开发的一个分布式的消息系统，使用Scala编写，它以可水平扩展和高吞吐率而被广泛使用。目前越来越多的开源分布式处理系统如Cloudera、Apache Storm、Spark都支持与Kafka集成。InfoQ一直在紧密关注Kafka的应用以及发展，“Kafka剖析”专栏将会从架构设计、实现、应用场景、性能等方面深度解析Kafka。
@@ -290,9 +290,9 @@ Kafka是由LinkedIn开发的一个分布式的消息系统，使用Scala编写�
 Controller在ZooKeeper的/brokers/ids节点上注册Watch。一旦有Broker宕 机（本文用宕机代表任何让Kafka认为其Broker die的情景，包括但不限于机器断电，网络不可用，GC导致的Stop The World，进程crash等），其在ZooKeeper对应的Znode会自动被删除，ZooKeeper会fire Controller注册的Watch，Controller即可获取最新的幸存的Broker列表。
 Controller决定set_p，该集合包含了宕机的所有Broker上的所有Partition。
 对set_p中的每一个Partition：
-3.1 从/brokers/topics/[topic]/partitions/[partition]/state读取该Partition当前的ISR。
-3.2 决定该Partition的新Leader。如果当前ISR中有至少一个Replica还幸存，则选择其中一个作为新Leader，新的ISR则包含当前 ISR中所有幸存的Replica。否则选择该Partition中任意一个幸存的Replica作为新的Leader以及ISR（该场景下可能会有潜在 的数据丢失）。如果该Partition的所有Replica都宕机了，则将新的Leader设置为-1。
-3.3 将新的Leader，ISR和新的leader_epoch及controller_epoch写入/brokers/topics/[topic]/partitions/[partition]/state。注意，该操作只有Controller版本在3.1至3.3的过程中无变化时才会执行，否则跳转到3.1。
+-  3.1 从/brokers/topics/[topic]/partitions/[partition]/state读取该Partition当前的ISR。
+-  3.2 决定该Partition的新Leader。如果当前ISR中有至少一个Replica还幸存，则选择其中一个作为新Leader，新的ISR则包含当前 ISR中所有幸存的Replica。否则选择该Partition中任意一个幸存的Replica作为新的Leader以及ISR（该场景下可能会有潜在 的数据丢失）。如果该Partition的所有Replica都宕机了，则将新的Leader设置为-1。
+-  3.3 将新的Leader，ISR和新的leader_epoch及controller_epoch写入/brokers/topics/[topic]/partitions/[partition]/state。注意，该操作只有Controller版本在3.1至3.3的过程中无变化时才会执行，否则跳转到3.1。
 直接通过RPC向set_p相关的Broker发送LeaderAndISRRequest命令。Controller可以在一个RPC操作中发送多个命令从而提高效率。
 Broker failover顺序图如下所示。
 ![kafka4](/public/image/kafka-4.png)
@@ -304,8 +304,8 @@ LeaderAndIsrResponse结构如下
 Controller在ZooKeeper的/brokers/topics节点上注册Watch，一旦某个Topic被创建或删除，则Controller会通过Watch得到新创建/删除的Topic的Partition/Replica分配。
 对于删除Topic操作，Topic工具会将该Topic名字存于/admin/delete_topics。若delete.topic.enable为true，则Controller注册在/admin/delete_topics上的Watch被fire，Controller通过回调向对应的Broker发送StopReplicaRequest，若为false则Controller不会在/admin/delete_topics上注册Watch，也就不会对该事件作出反应。
 对于创建Topic操作，Controller从/brokers/ids读取当前所有可用的Broker列表，对于set_p中的每一个Partition：
-3.1 从分配给该Partition的所有Replica（称为AR）中任选一个可用的Broker作为新的Leader，并将AR设置为新的ISR（因为该 Topic是新创建的，所以AR中所有的Replica都没有数据，可认为它们都是同步的，也即都在ISR中，任意一个Replica都可作为 Leader）
-3.2 将新的Leader和ISR写入/brokers/topics/[topic]/partitions/[partition]
+- 3.1 从分配给该Partition的所有Replica（称为AR）中任选一个可用的Broker作为新的Leader，并将AR设置为新的ISR（因为该 Topic是新创建的，所以AR中所有的Replica都没有数据，可认为它们都是同步的，也即都在ISR中，任意一个Replica都可作为 Leader）
+- 3.2 将新的Leader和ISR写入/brokers/topics/[topic]/partitions/[partition]
 直接通过RPC向相关的Broker发送LeaderAndISRRequest。
 创建Topic顺序图如下所示。
 ![kafka7](/public/image/kafka-7.png)
@@ -321,10 +321,10 @@ KafkaRequestHandler循环从RequestChannel中取Request并交给kafka.server.Kaf
 对于收到的LeaderAndIsrRequest，Broker主要通过ReplicaManager的becomeLeaderOrFollower处理，流程如下：
 若请求中controllerEpoch小于当前最新的controllerEpoch，则直接返回ErrorMapping.StaleControllerEpochCode。
 对于请求中partitionStateInfos中的每一个元素，即（(topic, partitionId), partitionStateInfo)：
-2.1 若partitionStateInfo中的leader epoch大于当前ReplicManager中存储的(topic, partitionId)对应的partition的leader epoch，则：
-2.1.1 若当前brokerid（或者说replica id）在partitionStateInfo中，则将该partition及partitionStateInfo存入一个名为partitionState的HashMap中
-2.1.2 否则说明该Broker不在该Partition分配的Replica list中，将该信息记录于log中
-2.2 否则将相应的Error code（ErrorMapping.StaleLeaderEpochCode）存入Response中
+- 2.1 若partitionStateInfo中的leader epoch大于当前ReplicManager中存储的(topic, partitionId)对应的partition的leader epoch，则：
+- 2.1.1 若当前brokerid（或者说replica id）在partitionStateInfo中，则将该partition及partitionStateInfo存入一个名为partitionState的HashMap中
+- 2.1.2 否则说明该Broker不在该Partition分配的Replica list中，将该信息记录于log中
+*  2.2 否则将相应的Error code（ErrorMapping.StaleLeaderEpochCode）存入Response中
 筛选出partitionState中Leader与当前Broker ID相等的所有记录存入partitionsTobeLeader中，其它记录存入partitionsToBeFollower中。
 若partitionsTobeLeader不为空，则对其执行makeLeaders方。
 若partitionsToBeFollower不为空，则对其执行makeFollowers方法。
@@ -450,9 +450,9 @@ Follower需要从Leader Fetch数据以保持与Leader同步，所以仅仅保持
 需要说明的是，该工具不仅可以调整Partition的AR位置，还可调整其AR数量，即改变该Topic的replication factor。
 原理
 该工具只负责将所需信息存入ZooKeeper中相应节点，然后退出，不负责相关的具体操作，所有调整都由Controller完成。
-1. 在ZooKeeper上创建/admin/reassign_partitions节点，并存入目标Partition列表及其对应的目标AR列表。
-2. Controller注册在/admin/reassign_partitions上的Watch被fire，Controller获取该列表。
-3. 对列表中的所有Partition，Controller会做如下操作：
+- 1. 在ZooKeeper上创建/admin/reassign_partitions节点，并存入目标Partition列表及其对应的目标AR列表。
+- 2. Controller注册在/admin/reassign_partitions上的Watch被fire，Controller获取该列表。
+- 3. 对列表中的所有Partition，Controller会做如下操作：
 启动RAR - AR中的Replica，即新分配的Replica。（RAR = Reassigned Replicas， AR = Assigned Replicas）
 等待新的Replica与Leader同步
 如果Leader不在RAR中，从RAR中选出新的Leader
@@ -464,7 +464,7 @@ generate模式，给定需要重新分配的Topic，自动生成reassign plan（
 execute模式，根据指定的reassign plan重新分配Partition
 verify模式，验证重新分配Partition是否成功
 下面这个例子将使用该工具将Topic的所有Partition重新分配到Broker 4/5/6/7上，步骤如下：
-1. 使用generate模式，生成reassign plan
+- 1. 使用generate模式，生成reassign plan
 指定需要重新分配的Topic （{"topics":[{"topic":"topic1"}],"version":1}），并存入/tmp/topics-to-move.json文件中，然后执行如下命令
 $KAFKA_HOME/bin/kafka-reassign-partitions.sh --zookeeper localhost:2181
 --topics-to-move-json-file /tmp/topics-to-move.json 
@@ -472,7 +472,7 @@ $KAFKA_HOME/bin/kafka-reassign-partitions.sh --zookeeper localhost:2181
 
 结果如下图所示
 ![kafka17](/public/image/kafka-17.png)
-2. 使用execute模式，执行reassign plan
+- 2. 使用execute模式，执行reassign plan
 将上一步生成的reassignment plan存入/tmp/reassign-plan.json文件中，并执行
 ```$KAFKA_HOME/bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 
 --reassignment-json-file /tmp/reassign-plan.json --execute
@@ -480,7 +480,7 @@ $KAFKA_HOME/bin/kafka-reassign-partitions.sh --zookeeper localhost:2181
 
 此时，ZooKeeper上/admin/reassign_partitions节点被创建，且其值与/tmp/reassign-plan.json文件的内容一致。
 
-3. 使用verify模式，验证reassign是否完成
+- 3. 使用verify模式，验证reassign是否完成
 执行verify命令
 ```$KAFKA_HOME/bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 
 --reassignment-json-file /tmp/reassign-plan.json --verify
