@@ -413,7 +413,6 @@ max.message.bytes
 file.delete.delay.ms
 min.insync.replicas
 index.interval.bytes
-
 Replica Verification Tool
 $KAFKA_HOME/bin/kafka-replica-verification.sh，该工具用来验证所指定的一个或多个Topic下每个Partition对应的所有Replica是否都同步。可通过topic-white-list这一参数指定所需要验证的所有Topic，支持正则表达式。
 Preferred Replica Leader Election Tool
@@ -426,10 +425,12 @@ Preferred Replica Leader Election Tool
 2. Controller一直Watch该节点，一旦该节点被创建，Controller会收到通知，并获取该内容。
 3. Controller读取Preferred Replica，如果发现该Replica当前并非是Leader并且它在该Partition的ISR中，Controller向该Replica发送 LeaderAndIsrRequest，使该Replica成为Leader。如果该Replica当前并非是Leader，且不在ISR 中，Controller为了保证没有数据丢失，并不会将其设置为Leader。
 用法
-```$KAFKA_HOME/bin/kafka-preferred-replica-election.sh --zookeeper localhost:2181
+```
+$KAFKA_HOME/bin/kafka-preferred-replica-election.sh --zookeeper localhost:2181
 ```
 在包含8个Broker的Kafka集群上，创建1个名为topic1，replication-factor为3，Partition数为8的Topic，使用如下命令查看其Partition/Replica分布。
-```$KAFKA_HOME/bin/kafka-topics.sh --describe --topic topic1 --zookeeper localhost:2181
+```
+$KAFKA_HOME/bin/kafka-topics.sh --describe --topic topic1 --zookeeper localhost:2181
 ```
 查询结果如下图所示，从图中可以看到，Kafka将所有Replica均匀分布到了整个集群，并且Leader也均匀分布。
 ![kafka12](/public/image/kafka-12.png)
