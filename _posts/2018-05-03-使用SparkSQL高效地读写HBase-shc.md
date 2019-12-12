@@ -7,7 +7,7 @@ categories:
 tags:
   - spark
 abbrlink: 33760
-date: 2019-03-03 01:29:56
+date: 2018-03-03 01:29:56
 ---
 Apache Spark 和 Apache HBase 是两个使用比较广泛的大数据组件。很多场景需要使用 Spark 分析/查询 HBase 中的数据，而目前 Spark 内置是支持很多数据源的，其中就包括了 HBase，但是内置的读取数据源还是使用了 TableInputFormat 来读取 HBase 中的数据。这个 TableInputFormat 有一些缺点：
 
